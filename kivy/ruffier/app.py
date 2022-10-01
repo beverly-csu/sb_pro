@@ -4,6 +4,7 @@ from kivy.uix.button import Button
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
+from kivy.uix.popup import Popup
 
 
 name = str()
@@ -37,15 +38,88 @@ class InstrScr(Screen):
     def next(self):
         global name, age
         name = self.name_input.text
-        age = int(self.age_input.text)
-        print(name, age)
-        #self.manager.current = 'pulse1'
+        try:
+            age = int(self.age_input.text)
+            self.manager.current = 'pulse1'
+        except:
+            popup = Popup(content=Label(text="Введите возраст правильно!"))
+            popup.open()
+
+
+class PulseScr(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        instruction = Label(text='Здесь нужно будет ввести пульс')
+        self.pulse_input = TextInput(multiline=False)
+        pulse_lbl = Label(text='Введите пульс:')
+        self.btn = Button(text='Продолжить')
+        self.btn.on_press = self.next
+        
+        pulse_layout = BoxLayout()
+        main_layout = BoxLayout(orientation='vertical')
+
+        pulse_layout.add_widget(pulse_lbl)
+        pulse_layout.add_widget(self.pulse_input)
+        main_layout.add_widget(instruction)
+        main_layout.add_widget(pulse_layout)
+        main_layout.add_widget(self.btn)
+
+        self.add_widget(main_layout)
+
+    def next(self):
+        self.manager.current = 'sits'
+
+
+class CheckSits(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        instruction = Label(text='Вам надо присесть 30 раз')
+        self.btn = Button(text='Продолжить')
+        self.btn.on_press = self.next
+        layout = BoxLayout(orientation='vertical')
+        layout.add_widget(instruction)
+        layout.add_widget(self.btn)
+        self.add_widget(layout)
+
+    def next(self):
+        self.manager.current = 'pulse2'
+
+
+class PulseScr2(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        instruction = Label(text='Инструкция')
+        self.pulse_inp_1 = TextInput(multiline=False)
+        self.pulse_inp_2 = TextInput(multiline=False)
+        pulse_lbl_1 = Label(text='Первый замер:')
+        pulse_lbl_2 = Label(text='Второй замер:')
+        self.btn = Button(text='Продолжить')
+        self.btn.on_press = self.next
+        pulse1 = BoxLayout()
+        pulse2 = BoxLayout()
+        main_layout = BoxLayout(orientation='vertical')
+        pulse1.add_widget(pulse_lbl_1)
+        pulse1.add_widget(self.pulse_inp_1)
+        pulse2.add_widget(pulse_lbl_2)
+        pulse2.add_widget(self.pulse_inp_2)
+        main_layout.add_widget(instruction)
+        main_layout.add_widget(pulse1)
+        main_layout.add_widget(pulse2)
+        main_layout.add_widget(self.btn)
+
+        self.add_widget(main_layout)
+
+    def next(self):
+        pass
 
 
 class MyApp(App):
     def build(self):
         sm = ScreenManager()
         sm.add_widget(InstrScr(name='main'))
+        sm.add_widget(PulseScr(name='pulse1'))
+        sm.add_widget(CheckSits(name='sits'))
+        sm.add_widget(PulseScr2(name='pulse2'))
         return sm
 
 
