@@ -5,6 +5,7 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.popup import Popup
+from instructions import *                                                                                                      ####
 
 
 name = str()
@@ -15,15 +16,15 @@ p1, p2, p3 = 0, 0, 0
 class InstrScr(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        instruction = Label(text='Инструкция')
+        instruction = Label(text=txt_instruction)                                                                               ####
         name_lbl = Label(text='Введите ваше имя:')
         age_lbl = Label(text='Введите ваш возраст:')
-        self.btn = Button(text='Начать')
+        self.btn = Button(text='Начать', size_hint=(0.3, None), height='30sp', pos_hint={'center_x': 0.5, 'center_y': 0.5})     ####
         self.btn.on_press = self.next
         self.name_input = TextInput(multiline=False)
         self.age_input = TextInput(multiline=False)
-        name_layout = BoxLayout()
-        age_layout = BoxLayout()
+        name_layout = BoxLayout(size_hint=(0.8, None), height='30sp', pos_hint={'center_x': 0.5, 'center_y': 0.5})              ####
+        age_layout = BoxLayout(size_hint=(0.8, None), height='30sp', pos_hint={'center_x': 0.5, 'center_y': 0.5})               ####
         main_layout = BoxLayout(orientation='vertical')
         name_layout.add_widget(name_lbl)
         name_layout.add_widget(self.name_input)
