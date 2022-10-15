@@ -6,6 +6,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.popup import Popup
 from instructions import *                                                                                                      ####
+from seconds import Seconds                                                                                                     ####
 
 
 name = str()
@@ -55,20 +56,23 @@ class PulseScr(Screen):
         pulse_lbl = Label(text='Введите пульс:')
         self.btn = Button(text='Продолжить')
         self.btn.on_press = self.next
-        
+        self.seconds = Seconds(15)                                                                                  ####
+
         pulse_layout = BoxLayout()
         main_layout = BoxLayout(orientation='vertical')
 
         pulse_layout.add_widget(pulse_lbl)
         pulse_layout.add_widget(self.pulse_input)
         main_layout.add_widget(instruction)
+        main_layout.add_widget(self.seconds)                                                                        ####
         main_layout.add_widget(pulse_layout)
         main_layout.add_widget(self.btn)
 
         self.add_widget(main_layout)
 
     def next(self):
-        self.manager.current = 'sits'
+        self.seconds.start()                                                                                        ####
+        #### self.manager.current = 'sits'
 
 
 class CheckSits(Screen):
