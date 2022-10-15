@@ -6,7 +6,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.popup import Popup
 from instructions import *                                                                                                      ####
-from seconds import Seconds                                                                                                     ####
+from seconds import Seconds  
+from ruffier import test                                                                                                   ####
 
 
 name = str()
@@ -120,9 +121,25 @@ class PulseScr2(Screen):
         self.add_widget(main_layout)
 
     def next(self):
-        pass
+        global p2, p3
+        try:
+            p2 = int(self.pulse_inp_1.text)
+            p3 = int(self.pulse_inp_2.text)
+            self.manager.current = 'result'
+        except:
+            popup = Popup(content=Label(text="Введите пульс правильно!"))
+            popup.open()
 
 
+class ResultScr(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.result = Label()
+        self.add_widget(self.result)
+        self.on_enter = self.before
+
+    def before(self):
+        self.result.text = name + '\n' + test(p1, p2, p3, age)
 
 
 class MyApp(App):
@@ -132,6 +149,7 @@ class MyApp(App):
         sm.add_widget(PulseScr(name='pulse1'))
         sm.add_widget(CheckSits(name='sits'))
         sm.add_widget(PulseScr2(name='pulse2'))
+        sm.add_widget(ResultScr(name='result'))
         return sm
 
 
