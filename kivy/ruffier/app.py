@@ -71,8 +71,13 @@ class PulseScr(Screen):
         self.add_widget(main_layout)
 
     def next(self):
-        self.seconds.start()                                                                                        ####
-        #### self.manager.current = 'sits'
+        global p1
+        try:
+            p1 = int(self.pulse_input.text)
+            self.manager.current = 'sits'
+        except:
+            popup = Popup(content=Label(text="Введите пульс правильно!"))
+            popup.open()
 
 
 class CheckSits(Screen):
@@ -116,6 +121,8 @@ class PulseScr2(Screen):
 
     def next(self):
         pass
+
+
 
 
 class MyApp(App):
