@@ -55,9 +55,11 @@ class PulseScr(Screen):
         instruction = Label(text='Здесь нужно будет ввести пульс')
         self.pulse_input = TextInput(multiline=False)
         pulse_lbl = Label(text='Введите пульс:')
-        self.btn = Button(text='Продолжить')
+        self.btn = Button(text='Начать')                                    ####
         self.btn.on_press = self.next
-        self.seconds = Seconds(15)                                                                                  ####
+        self.seconds = Seconds(15)                                                                            
+        self.seconds.bind(done=self.timer_end)                              ####
+        self.stage = 0                                                      ####
 
         pulse_layout = BoxLayout()
         main_layout = BoxLayout(orientation='vertical')
@@ -65,20 +67,29 @@ class PulseScr(Screen):
         pulse_layout.add_widget(pulse_lbl)
         pulse_layout.add_widget(self.pulse_input)
         main_layout.add_widget(instruction)
-        main_layout.add_widget(self.seconds)                                                                        ####
+        main_layout.add_widget(self.seconds)
         main_layout.add_widget(pulse_layout)
         main_layout.add_widget(self.btn)
 
         self.add_widget(main_layout)
 
+    def timer_end(self, *args):                                             ####
+        self.btn.set_disabled(False)                                        ####
+        self.stage = 1                                                      ####
+
     def next(self):
-        global p1
-        try:
-            p1 = int(self.pulse_input.text)
-            self.manager.current = 'sits'
-        except:
-            popup = Popup(content=Label(text="Введите пульс правильно!"))
-            popup.open()
+        if self.stage == 0:                                                 ####
+            self.btn.set_disabled(True)                                     ####
+            self.btn.text = 'Продолжить'                                    ####
+            self.seconds.start()                                            ####
+        elif self.stage == 1:                                               ####
+            global p1
+            try:
+                p1 = int(self.pulse_input.text)
+                self.manager.current = 'sits'
+            except:
+                popup = Popup(content=Label(text="Введите пульс правильно!"))
+                popup.open()
 
 
 class CheckSits(Screen):
