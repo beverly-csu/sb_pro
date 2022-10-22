@@ -18,11 +18,12 @@ p1, p2, p3 = 0, 0, 0
 class InstrScr(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        instruction = Label(text=txt_instruction)                                                                               ####
+        instruction = Label(text=txt_instruction, markup=True)                                                                               ####
         name_lbl = Label(text='Введите ваше имя:')
         age_lbl = Label(text='Введите ваш возраст:')
         self.btn = Button(text='Начать', size_hint=(0.3, None), height='30sp', pos_hint={'center_x': 0.5, 'center_y': 0.5})     ####
         self.btn.on_press = self.next
+        self.btn.background_color = (141/255, 140/255, 223/255, .5)
         self.name_input = TextInput(multiline=False)
         self.age_input = TextInput(multiline=False)
         name_layout = BoxLayout(size_hint=(0.8, None), height='30sp', pos_hint={'center_x': 0.5, 'center_y': 0.5})              ####
