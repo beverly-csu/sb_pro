@@ -7,7 +7,8 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.popup import Popup
 from instructions import *                                                                                                      ####
 from seconds import Seconds  
-from ruffier import test                                                                                                   ####
+from ruffier import test      
+from runner import Runner                                                                                             ####
 
 
 name = str()
@@ -99,10 +100,13 @@ class CheckSits(Screen):
         instruction = Label(text='Вам надо присесть 30 раз')
         self.btn = Button(text='Продолжить')
         self.btn.on_press = self.next
+        self.anim = Runner(30, 1.5)
         layout = BoxLayout(orientation='vertical')
         layout.add_widget(instruction)
+        layout.add_widget(self.anim)
         layout.add_widget(self.btn)
         self.add_widget(layout)
+        self.on_enter = self.anim.start
 
     def next(self):
         self.manager.current = 'pulse2'
